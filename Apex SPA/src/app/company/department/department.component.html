@@ -1,0 +1,107 @@
+<h1>Our Departments</h1>
+
+<div class="container">
+  <button class="btn btn-success" routerLink="/Home"><i class="fa fa-home" aria-hidden="true"></i></button>
+  <button class="btn btn-success" data-toggle="modal" data-target="#AddDepartment">Add new Department <i class="fa fa-plus-square"></i></button>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name_En</th>
+        <th scope="col">Name_Ar</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let Deb of Departments">
+        <tr>
+          <td><a routerLink="/Home/Empolyee/{{Deb.id}}">{{Deb.departmentName_En}}</a></td>
+          <td>{{Deb.departmentName_Ar}}</td>
+          <td>
+            <i class="fa fa-pencil-square-o" data-toggle="modal" (click)="ChangeSelected(Deb)" data-target="#EditDepartment" style="font-size:24px"></i>
+            <i class="fa fa-times-circle" (click)="DeletedDepartment(Deb)" style="font-size:24px"></i>
+            <a data-toggle="modal" (click)="ChangeSelected(Deb)" data-target="#DepartmentDetails" scope="row">Show Details</a>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add Department Model/ -->
+
+<div class="modal fade" id="AddDepartment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text">
+        <h5>Add New Department</h5>
+        <form #AddForm="ngForm">
+          <div class="form-group">
+            <label for="name_ar">Name In Arabic:</label>
+            <input type="text" name="name_ar" required  [(ngModel)]="NewDepartment.departmentName_Ar" class="form-control" id="name_ar">
+          </div>
+          <div class="form-group">
+            <label for="name_en">Name In English:</label>
+            <input type="text" required name="name_en" [(ngModel)]="NewDepartment.departmentName_En" class="form-control" id="name_en">
+          </div>
+          <div class="modal-footer">
+            <div class="m-auto">
+              <button type="submit" [disabled]="!AddForm.valid" class="btn btn-success pr-4 pl-4" (click)="AddNewDepartment()" data-dismiss="modal">Add</button>
+              <button type="button" class="btn btn-danger pr-3 pl-3 " data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Edit Department Model -->
+<div class="modal fade" id="EditDepartment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text">
+        <h5>Add New Department</h5>
+        <form #EditForm="ngForm">
+          <div class="form-group">
+            <label for="name_ar">Name In Arabic:</label>
+            <input type="text" *ngIf="SelectedDep" [(ngModel)]="SelectedDep.departmentName_Ar" name="name_ar" required class="form-control"
+              id="name_ar">
+          </div>
+          <div class="form-group">
+            <label for="name_en">Name In English:</label>
+            <input type="text" required *ngIf="SelectedDep" [(ngModel)]="SelectedDep.departmentName_En" name="name_en" class="form-control"
+              id="name_en">
+          </div>
+          <div class="modal-footer">
+            <div class="m-auto">
+              <button type="submit" [disabled]="!EditForm.valid" class="btn btn-success pr-4 pl-4" (click)="UpdateDepartment()" data-dismiss="modal">Edit</button>
+              <button type="button" class="btn btn-danger pr-3 pl-3 " data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Details Model -->
+<div class="modal fade" id="DepartmentDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text">
+        <h5>Department Detalis</h5>
+        <div class="form-group">
+          <label for="name_Ar">Name In Arabic:</label>
+          <span class="h5 col-6" *ngIf="SelectedDep">{{SelectedDep.departmentName_Ar}}</span>
+        </div>
+        <div class="form-group">
+          <label for="name_en">Name In English:</label>
+          <span class="h5 col-6" *ngIf="SelectedDep">{{SelectedDep.departmentName_En}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

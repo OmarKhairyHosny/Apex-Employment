@@ -1,0 +1,155 @@
+<h1>
+  Our Empolyee</h1>
+<div class="container">
+  <button class="btn btn-success" routerLink="/Home"><i class="fa fa-home" aria-hidden="true"></i></button>
+  <button class="btn btn-success" data-toggle="modal" data-target="#AddEmpolyee">Add new Empolyee <i class="fa fa-plus-square"></i></button>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let Emp of Employees">
+        <tr>
+          <td><a routerLink="/Home/Tasks/{{Emp.id}}">{{Emp.name_En}} | {{Emp.department.departmentName_En}} </a></td>
+          <td>
+            <i class="fa fa-pencil-square-o" data-toggle="modal" data-target="#EditEmpolyee" (click)="selectedEmpolye(Emp)" style="font-size:24px"></i>
+            <i class="fa fa-times-circle" (click)="DeleteEmployee(Emp)" style="font-size:24px"></i>
+            <a data-toggle="modal" data-target="#EmpolyeeDetails" (click)="selectedEmpolye(Emp)" scope="row">Show Details</a>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add Model/ -->
+
+<div class="modal fade" id="AddEmpolyee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text">
+        <h5>Add New Empolyee</h5>
+        <form  (ngSubmit)="SubmitNewEmp(AddEmployee)"  #AddEmployee="ngForm" >
+          <div class="form-group">
+            <label for="name_ar">Name In Arabic:</label>
+            <input type="text" ngModel name="name_ar" required class="form-control" id="name_ar">
+          </div>
+          <div class="form-group">
+            <label for="name_en">Name In English:</label>
+            <input type="text" required ngModel name="name_en" class="form-control" id="name_en">
+          </div>
+          <div class="form-group" *ngIf="id=='All'" >
+            <label for="DepartmentControlSelect">Department</label>
+            <select class="form-control" id="DepartmentControlSelect" (change)="ChangeDep($event.target.value)" required>
+              <option disabled>Choose Department</option>
+              <option *ngFor="let Dep of Departments " [selected]="Dep == SelectedDepartment">{{Dep.departmentName_En}} | {{Dep.departmentName_Ar}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="MangerControlSelect">Manager</label>
+            <select class="form-control" id="MangerControlSelect" (change)="ChangeEmp($event.target.value)" >
+              <option disabled>Choose Manager</option>
+              <option *ngFor="let Emp of AllEmployees" id="{{Emp.id}}"  [selected]="Emp == SelectedManager">{{Emp.name_En}} | {{Emp.name_Ar}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="JnD">Join Date:</label>
+            <input type="date" required ngModel name="Jdate" class="form-control" id="JnD">
+          </div>
+          <div class="modal-footer">
+            <div class="m-auto">
+              <button type="submit" [disabled]="!AddEmployee.valid" class="btn btn-success pr-4 pl-4">Add</button>
+              <button type="button" class="btn btn-danger pr-3 pl-3 " data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Edit Model -->
+<div class="modal fade" id="EditEmpolyee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text">
+        <h5> Edit</h5>
+        <form #f="ngForm">
+          <div class="form-group">
+            <label for="name_ar">Name In Arabic:</label>
+            <input type="text" *ngIf="SelectedEmp" [(ngModel)]="SelectedEmp.name_Ar" name="name_ar" required class="form-control" id="name_ar">
+          </div>
+          <div class="form-group">
+            <label for="name_en">Name In English:</label>
+            <input type="text" required *ngIf="SelectedEmp" [(ngModel)]="SelectedEmp.name_En" name="name_en" class="form-control" id="name_en">
+          </div>
+          <div class="form-group" *ngIf="SelectedEmp"  >
+            <label for="DepartmentControlSelect">Department</label>
+            <select class="form-control" id="DepartmentControlSelect" (change)="EditDep($event.target.value)" required>
+              <option disabled>Choose Department</option>
+              <option *ngFor="let Dep of Departments "  [selected]="Dep == SelectedEmp.department">{{Dep.departmentName_En}} | {{Dep.departmentName_Ar}}</option>
+            </select>
+          </div>
+          <div class="form-group" *ngIf="SelectedEmp" >
+            <label for="MangerControlSelect">Manager</label>
+            <select class="form-control" id="MangerControlSelect" (change)="EditManager($event.target.value)" >
+              <option disabled>Choose Manager</option>
+              <option *ngFor="let Emp of AllEmployees"  [selected]="Emp == SelectedEmp.manager">{{Emp.name_En}} | {{Emp.name_Ar}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="JnD">Join Date:</label>
+            <input type="datetime-local" required *ngIf="SelectedEmp" [(ngModel)]="SelectedEmp.joinDate" name="date" class="form-control" id="JnD">
+          </div>
+          <div class="modal-footer">
+            <div class="m-auto">
+              <button type="submit" [disabled]="!f.valid" class="btn btn-success pr-4 pl-4" (click)="UpdateEmployee()"  data-dismiss="modal" >Edit</button>
+              <button type="button" class="btn btn-danger pr-3 pl-3 " data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Details Model -->
+<div class="modal fade" id="EmpolyeeDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text">
+        <h4>Empolyee Detalis</h4>
+         <hr/>
+        <div class="form-group">
+          <label for="name_ar">Name In Arabic:</label>
+          <span class="h5 col-6" *ngIf="SelectedEmp">{{SelectedEmp.name_Ar}}</span>
+        </div>
+        <div class="form-group">
+          <label for="name_en">Name In English:</label>
+          <span class="h5 col-6" *ngIf="SelectedEmp" >{{SelectedEmp.name_En}}</span>
+        </div>
+        <div class="form-group">
+          <label for="dpt">Department:</label>
+          <span class="h5 col-6" *ngIf="SelectedEmp">{{SelectedEmp.department.departmentName_En}} | {{SelectedEmp.department.departmentName_Ar}} </span>
+        </div>
+        <div class="form-group">
+          <label for="mng">Manager:</label>
+          <span class="h5 col-6" *ngIf="SelectedEmp">{{SelectedEmp.manager?.name_En}}</span>
+        </div>
+        <div class="form-group">
+          <label for="JnD">Join Date:</label>
+          <span class="h5 col-6" *ngIf="SelectedEmp">{{SelectedEmp.joinDate}}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

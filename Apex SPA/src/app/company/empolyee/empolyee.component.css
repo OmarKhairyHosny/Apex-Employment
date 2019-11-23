@@ -1,0 +1,14 @@
+
+.btn-success{
+    float: right;
+}
+
+i{
+    cursor: pointer;
+}
+th{
+    cursor: pointer;
+}
+.lable{
+    margin:15px 0;
+    }

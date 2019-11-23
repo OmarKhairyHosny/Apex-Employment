@@ -1,0 +1,10 @@
+<div class="col">
+    <div class="btn-group float-right">
+      <button type="button"  [(ngModel)]="enterMethod" (click)="changed()"
+      btnRadio="Manaully" class="btn btn-primary" ngDefaultControl>EnterIMEIs</button>
+      <button type="button" [(ngModel)]="enterMethod" (click)="changed()" 
+      btnRadio="Upload" class="btn btn-primary" ngDefaultControl>Upload IMEIs</button>
+    </div>
+  </div>
+
+  <button [(ngModel)]="enterMethod"></button>

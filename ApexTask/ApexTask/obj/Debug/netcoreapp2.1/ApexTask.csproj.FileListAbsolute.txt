@@ -1,0 +1,14 @@
+E:\ApexTask\ApexTask\obj\Debug\netcoreapp2.1\ApexTask.csproj.CoreCompileInputs.cache
+E:\ApexTask\ApexTask\obj\Debug\netcoreapp2.1\ApexTask.RazorAssemblyInfo.cache
+E:\ApexTask\ApexTask\obj\Debug\netcoreapp2.1\ApexTask.RazorAssemblyInfo.cs
+E:\ApexTask\ApexTask\obj\Debug\netcoreapp2.1\ApexTask.AssemblyInfoInputs.cache
+E:\ApexTask\ApexTask\obj\Debug\netcoreapp2.1\ApexTask.AssemblyInfo.cs
+E:\ApexTask\ApexTask\bin\Debug\netcoreapp2.1\ApexTask.deps.json
+E:\ApexTask\ApexTask\bin\Debug\netcoreapp2.1\ApexTask.runtimeconfig.json
+E:\ApexTask\ApexTask\bin\Debug\netcoreapp2.1\ApexTask.runtimeconfig.dev.json
+E:\ApexTask\ApexTask\bin\Debug\netcoreapp2.1\ApexTask.dll
+E:\ApexTask\ApexTask\bin\Debug\netcoreapp2.1\ApexTask.pdb
+E:\ApexTask\ApexTask\obj\Debug\netcoreapp2.1\ApexTask.RazorTargetAssemblyInfo.cache
+E:\ApexTask\ApexTask\obj\Debug\netcoreapp2.1\ApexTask.dll
+E:\ApexTask\ApexTask\obj\Debug\netcoreapp2.1\ApexTask.pdb
+E:\ApexTask\ApexTask\obj\Debug\netcoreapp2.1\ApexTask.csprojAssemblyReference.cache

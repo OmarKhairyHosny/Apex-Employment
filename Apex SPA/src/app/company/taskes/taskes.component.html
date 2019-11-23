@@ -1,0 +1,154 @@
+
+<h1>Our Tasks</h1>
+<div class="container">
+    <button class="btn btn-success"  routerLink="/Home"><i class="fa fa-home" aria-hidden="true"></i></button>
+    <button class="btn btn-success" data-toggle="modal" data-target="#AddTask">Add new Task <i class="fa fa-plus-square"></i></button>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let task of Tasks">
+            <tr>
+                <td >{{task.title}}</td>
+                <td >
+                  <i class="fa fa-pencil-square-o" data-toggle="modal" data-target="#EditTask" (click)="ChangeSelectedTask(task)" style="font-size:24px"></i>
+                  <i class="fa fa-times-circle" (click)="DeleteTask(task)" style="font-size:24px"></i>
+                  <a data-toggle="modal" data-target="#TaskDetails" (click)="ChangeSelectedTask(task)"  scope="row">Show Details</a>
+                  </td>
+              </tr>
+        </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add Model/ -->
+
+<div class="modal fade" id="AddTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text">
+        <h5>Add New Task</h5>
+        <form (ngSubmit)="SubmitNewTask(AddTask)" #AddTask="ngForm">
+          <div class="form-group">
+            <label for="name_ar">Title:</label>
+            <input type="text" ngModel name="title" required class="form-control" id="name_ar">
+          </div>
+          <div class="form-group">
+            <label for="name_en">Description:</label>
+            <input type="text" required  ngModel name="desc" class="form-control" id="name_en">
+          </div>
+          <div class="form-group">
+            <label for="dpt">Start Date:</label>
+            <input type="date" required  ngModel name="sdate"  class="form-control" id="dpt">
+          </div>
+          <div class="form-group">
+            <label for="mng">End Date:</label>
+            <input type="date" required ngModel name="edate" class="form-control" id="mng">
+          </div>
+          <div class="form-group" *ngIf="id=='All'">
+            <label for="ControlSelect">Assign To:</label>
+            <select class="form-control" id="ControlSelect" (change)="SetAssign($event.target.value)" >
+              <option disabled>Choose Empolyee </option>
+              <option *ngFor="let Emp of Employees"  [selected]="Emp == selectedEmpolyee">{{Emp.name_En}} | {{Emp.name_Ar}}</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <div class="m-auto">
+              <button type="submit" [disabled]="!AddTask.valid" class="btn btn-success pr-4 pl-4" 
+               >Add</button>
+              <button type="button" class="btn btn-danger pr-3 pl-3 " data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </form>
+       
+      </div>
+   
+    </div>
+  </div>
+</div>
+
+<!-- Edit Model -->
+<div class="modal fade" id="EditTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text">
+        <h5>Edit Task</h5>
+        <form #EditTask="ngForm">
+          <div class="form-group">
+            <label for="name_ar">Title:</label>
+            <input type="text" *ngIf="SelectedTask" [(ngModel)]="SelectedTask.title" name="title" required class="form-control" >
+          </div>
+          <div class="form-group">
+            <label for="name_en">Description:</label>
+            <input type="text" required  *ngIf="SelectedTask" [(ngModel)]="SelectedTask.description"  name="desc" class="form-control" >
+          </div>
+          <div class="form-group">
+            <label for="dpt">Start Date:</label>
+            <input type="datetime-local" required  *ngIf="SelectedTask" [(ngModel)]="SelectedTask.startDate"  name="sdate"  class="form-control" >
+          </div>
+          <div class="form-group">
+            <label for="mng">End Date:</label>
+            <input type="datetime-local" required *ngIf="SelectedTask" [(ngModel)]="SelectedTask.endDate"  name="edate" class="form-control" >
+          </div>
+          <div class="form-group" *ngIf="SelectedTask">
+            <label for="ControlSelect">Assign To:</label>
+            <select class="form-control" id="ControlSelect" (change)="EditTaskEmployee($event.target.value)" >
+              <option disabled>Choose Empolyee </option>
+              <option *ngFor="let Emp of Employees"  [selected]="Emp == SelectedTask.employee">{{Emp.name_En}} | {{Emp.name_Ar}}</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <div class="m-auto">
+              <button type="submit" [disabled]="!EditTask.valid" class="btn btn-success pr-4 pl-4" data-dismiss="modal" (click)="UpdateTask()"
+               >Edit</button>
+              <button type="button" class="btn btn-danger pr-3 pl-3 " data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </form>
+       
+      </div>
+   
+    </div>
+  </div>
+</div>
+
+<!-- Details Model -->
+<div class="modal fade" id="TaskDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text">
+        <h5>Empolyee Detalis</h5>
+        
+          <div class="form-group">
+            <label>Title:</label>
+            <span class="h5 col-6"*ngIf="SelectedTask" >{{SelectedTask.title}}</span>
+          </div>
+          <div class="form-group">
+            <label >Description:</label>
+            <span class="h5 col-6"*ngIf="SelectedTask" >{{SelectedTask.description}}</span>
+          </div>
+          <div class="form-group">
+            <label >Start Date:</label>
+            <span class="h5 col-6"*ngIf="SelectedTask" >{{SelectedTask.startDate}}</span>
+          </div>
+          <div class="form-group">
+            <label>End Date:</label>
+            <span class="h5 col-6"*ngIf="SelectedTask" >{{SelectedTask.endDate}}</span>
+          </div>
+          <div class="form-group">
+            <label >Assigned To:</label>
+            <span class="h5 col-6"*ngIf="SelectedTask" >{{SelectedTask.employee.name_En}}</span>
+          </div>
+      </div>
+   
+    </div>
+  </div>
+</div>
